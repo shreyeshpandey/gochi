@@ -1,5 +1,3 @@
-It looks like you're creating a GitHub README for **Gochi World**, a multiplayer score tracking game. Here's the full version with a proper structure:
-
 ---
 
 # 🎮 Gochi World - Multiplayer Score Tracking Game
