@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gochi World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #f06, #4a90e2);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container, .game-sheet, .winner-screen {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+        }
+        input {
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+            font-size: 16px;
+            height: 44px;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: #ffcc00;
+            color: #333;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            margin: 10px 5px;
+            min-width: 100px;
+            min-height: 44px;
+        }
+        button:hover {
+            background: #ff9900;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .game-sheet {
+            display: none;
+            background: white;
+            color: black;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .positive {
+            background-color: #e6ffe6;
+            color: #006400;
+        }
+        .negative {
+            background-color: #ffe6e6;
+            color: #8b0000;
+        }
+        .total {
+            font-weight: bold;
+            background-color: #e6f7ff;
+        }
+        .winner-screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+        .winner-text {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            color: #f06;
+            font-weight: bold;
+        }
+        .player-name {
+            font-weight: bold;
+            color: #4a90e2;
+            background-color: #f0f8ff !important;
+        }
+        .error {
+            color: #ff3333;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            display: none;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container, .game-sheet, .winner-screen {
+                width: 95%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .input-box {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            th, td {
+                padding: 8px;
+                min-width: 50px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .winner-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .input-box {
+                padding: 10px;
+            }
+            input {
+                padding: 10px;
+            }
+            th, td {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+            .winner-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="startScreen">
+        <h1>Welcome to Gochi World</h1>
+        <div class="input-box">
+            <input type="text" id="player1" placeholder="Enter Player 1" required>
+            <input type="text" id="player2" placeholder="Enter Player 2" required>
+            <input type="text" id="player3" placeholder="Enter Player 3">
+            <input type="text" id="player4" placeholder="Enter Player 4">
+            <div class="error" id="nameError">Please enter at least 2 player names</div>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <div class="game-sheet" id="gameSheet">
+        <h2>Game Sheet</h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Round</th>
+                        <!-- Player columns will be added dynamically -->
+                    </tr>
+                </thead>
+                <tbody id="gameTableBody"></tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <!-- Total cells will be added dynamically -->
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <button onclick="endGame()">End Game</button>
+    </div>
+
+    <div class="winner-screen" id="winnerScreen">
+        <h2>Game Results</h2>
+        <div class="winner-text" id="winnerText"></div>
+        <div id="scoreSummary"></div>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+
+    <script>
+        const NUM_ROUNDS = 11; // Fixed to 11 rounds as requested
+        let players = [];
+        let gameData = {};
+
+        function startGame() {
+            // Get player names
+            players = [
+                document.getElementById('player1').value.trim(),
+                document.getElementById('player2').value.trim(),
+                document.getElementById('player3').value.trim(),
+                document.getElementById('player4').value.trim()
+            ].filter(name => name !== '');
+
+            // Validate at least 2 players
+            if (players.length < 2) {
+                document.getElementById('nameError').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('nameError').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameSheet').style.display = 'block';
+
+            initializeGame();
+            populateGameTable();
+        }
+
+        function initializeGame() {
+            gameData = {};
+            players.forEach(player => {
+                gameData[player] = {
+                    scores: Array(NUM_ROUNDS).fill(null),
+                    total: 0
+                };
+            });
+        }
+
+        function populateGameTable() {
+            const header = document.querySelector('thead tr');
+            const body = document.getElementById('gameTableBody');
+            const footer = document.querySelector('tfoot tr');
+            
+            // Clear existing content
+            header.innerHTML = '<th>Round</th>';
+            body.innerHTML = '';
+            footer.innerHTML = '<th>Total</th>';
+            
+            // Add player columns to header
+            players.forEach(player => {
+                header.innerHTML += `<th class="player-name">${player}</th>`;
+            });
+            
+            // Create rows for each round
+            for (let round = 0; round < NUM_ROUNDS; round++) {
+                let row = `<tr><td>Round ${round + 1}</td>`;
+                
+                // Add score inputs for each player
+                players.forEach(player => {
+                    row += `<td><input type="number" class="score" data-player="${player}" data-round="${round}" 
+                           value="" onchange="updateScore(this)"></td>`;
+                });
+                
+                row += '</tr>';
+                body.innerHTML += row;
+            }
+            
+            // Add total cells to footer
+            players.forEach(player => {
+                footer.innerHTML += `<td class="total" id="total-${player}">0</td>`;
+            });
+        }
+
+        function updateScore(input) {
+            const player = input.dataset.player;
+            const round = parseInt(input.dataset.round);
+            let value = input.value === '' ? null : parseInt(input.value);
+            
+            // Handle NaN cases (when input is cleared)
+            if (isNaN(value)) {
+                value = null;
+                input.value = '';
+            }
+            
+            // Update game data
+            gameData[player].scores[round] = value;
+            
+            // Update cell color
+            input.classList.remove('positive', 'negative');
+            if (value !== null) {
+                if (value > 0) {
+                    input.classList.add('positive');
+                } else if (value < 0) {
+                    input.classList.add('negative');
+                }
+            }
+            
+            // Recalculate total (treat null/empty as 0)
+            gameData[player].total = gameData[player].scores.reduce((sum, score) => {
+                return sum + (score !== null ? score : 0);
+            }, 0);
+            
+            // Update display
+            document.getElementById(`total-${player}`).textContent = gameData[player].total;
+        }
+
+        function endGame() {
+            document.getElementById('gameSheet').style.display = 'none';
+            document.getElementById('winnerScreen').style.display = 'block';
+            
+            // Determine winner(s)
+            let maxScore = -Infinity;
+            let winners = [];
+            
+            for (const player in gameData) {
+                if (gameData[player].total > maxScore) {
+                    maxScore = gameData[player].total;
+                    winners = [player];
+                } else if (gameData[player].total === maxScore) {
+                    winners.push(player);
+                }
+            }
+            
+            // Display winner(s)
+            const winnerText = document.getElementById('winnerText');
+            if (winners.length === 1) {
+                winnerText.innerHTML = `Winner: <span class="player-name">${winners[0]}</span> with ${maxScore} points!`;
+            } else {
+                winnerText.innerHTML = `It's a tie between: ${winners.map(w => `<span class="player-name">${w}</span>`).join(', ')} with ${maxScore} points each!`;
+            }
+            
+            // Display score summary
+            const scoreSummary = document.getElementById('scoreSummary');
+            let summaryHTML = '<h3>Final Scores:</h3><ul style="list-style-type: none; padding: 0;">';
+            
+            // Sort players by score (descending)
+            const sortedPlayers = [...players].sort((a, b) => gameData[b].total - gameData[a].total);
+            
+            sortedPlayers.forEach(player => {
+                summaryHTML += `<li><span class="player-name">${player}</span>: ${gameData[player].total} points</li>`;
+            });
+            
+            summaryHTML += '</ul>';
+            scoreSummary.innerHTML = summaryHTML;
+        }
+
+        function restartGame() {
+            // Reset form
+            document.getElementById('player1').value = '';
+            document.getElementById('player2').value = '';
+            document.getElementById('player3').value = '';
+            document.getElementById('player4').value = '';
+            
+            // Reset game state
+            players = [];
+            gameData = {};
+            
+            // Show start screen
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('winnerScreen').style.display = 'none';
+            document.getElementById('gameSheet').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
