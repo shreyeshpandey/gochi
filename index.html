@@ -237,19 +237,19 @@
 </head>
 <body>
     <div class="container" id="startScreen">
-        <h1>Welcome to Gochi World</h1>
+        <h1>Welcome to Gochi Scorer</h1>
         <div class="input-box">
             <input type="text" id="player1" placeholder="Enter Player 1" required>
             <input type="text" id="player2" placeholder="Enter Player 2" required>
-            <input type="text" id="player3" placeholder="Enter Player 3">
-            <input type="text" id="player4" placeholder="Enter Player 4">
-            <div class="error" id="nameError">Please enter at least 2 player names</div>
-            <button onclick="startGame()">Start Game</button>
+            <input type="text" id="player3" placeholder="Enter Player 3" required>
+            <input type="text" id="player4" placeholder="Enter Player 4" required>
+            <div class="error" id="nameError">Please enter all 4 players to continue</div>
+            <button onclick="startGame()">Start Scoring</button>
         </div>
     </div>
 
     <div class="game-sheet" id="gameSheet">
-        <h2>Game Sheet</h2>
+        <h2>Gochi Sheet</h2>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
