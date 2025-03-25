@@ -249,8 +249,8 @@
         <div class="input-box">
             <input type="text" id="player1" placeholder="Enter Player 1" required>
             <input type="text" id="player2" placeholder="Enter Player 2" required>
-            <input type="text" id="player3" placeholder="Enter Player 3" required>
-            <input type="text" id="player4" placeholder="Enter Player 4" required>
+            <input type="text" id="player3" placeholder="Enter Player 3" >
+            <input type="text" id="player4" placeholder="Enter Player 4" >
             <div class="error" id="nameError">Please enter all 4 players to continue</div>
             <button onclick="startGame()">Start Scoring</button>
         </div>
@@ -284,9 +284,6 @@
         <div id="scoreSummary"></div>
         <button onclick="restartGame()">Play Again</button>
     </div>
-    
-    <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
-    <audio id="scoreSound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
     
     <!-- Confetti container -->
     <div id="confetti-container"></div>
@@ -365,9 +362,6 @@
         }
 
         function updateScore(input) {
-            const sound = document.getElementById('scoreSound');
-            sound.currentTime = 0;
-            sound.play();
             const player = input.dataset.player;
             const round = parseInt(input.dataset.round);
             let value = input.value === '' ? null : parseInt(input.value);
@@ -446,7 +440,6 @@
         }
 
         function endGame() {
-            document.getElementById('winSound').play();
             document.getElementById('gameSheet').style.display = 'none';
             document.getElementById('winnerScreen').style.display = 'block';
             
