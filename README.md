@@ -7,7 +7,7 @@
 
 ## 🌟 About the Game
 
-Gochi World is an interactive score tracking game designed for **2-4 players**. It features:
+Gochi World is a online score tracker designed for **tracking scores of gochi**. It features:
 
 ✅ **Dynamic round addition** – Add as many rounds as you want!  
 ✅ **Real-time score calculation** – No need for manual calculations.  
