@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gochi World</title>
     <style>
+
+        /* Light Mode (default) */
+        td.positive input {
+          background-color: rgba(0, 128, 0, 0.1); /* light green */
+          color: #006400;
+        }
+        td.negative input {
+          background-color: rgba(255, 0, 0, 0.1); /* light red */
+          color: #8b0000;
+        }
+        
+        /* Dark Mode */
+        body.dark-mode td.positive input {
+          background-color: rgba(0, 255, 0, 0.1); /* brighter green */
+          color: #90ee90; /* light green text */
+        }
+        body.dark-mode td.negative input {
+          background-color: rgba(255, 0, 0, 0.1); /* brighter red */
+          color: #ff7f7f; /* light red text */
+        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
