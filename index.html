@@ -14,6 +14,11 @@
             padding: 20px;
             min-height: 100vh;
             box-sizing: border-box;
+            transition: background 0.3s, color 0.3s;
+        }
+        .dark-mode {
+          background-color: #121212;
+          color: #f5f5f5;
         }
         .container, .game-sheet, .winner-screen {
             width: 90%;
@@ -262,6 +267,7 @@
     <div class="game-sheet" id="gameSheet">
         <h2>Gochi Sheet</h2>
         <div style="overflow-x: auto;">
+            <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Dark Mode</button>
             <table>
                 <thead>
                     <tr>
@@ -328,6 +334,21 @@
                 };
             });
         }
+
+        function toggleDarkMode() {
+          document.body.classList.toggle('dark-mode');
+          const isDark = document.body.classList.contains('dark-mode');
+          localStorage.setItem('gochiDarkMode', isDark);
+          document.getElementById('darkModeToggle').textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+        
+        // Load preference on page load
+        window.addEventListener('DOMContentLoaded', () => {
+          if (localStorage.getItem('gochiDarkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeToggle').textContent = '☀️ Light Mode';
+          }
+        });
 
         function populateGameTable() {
             const header = document.querySelector('thead tr');
