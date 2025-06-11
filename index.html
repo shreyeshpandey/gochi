@@ -205,6 +205,21 @@
             touch-action: pan-x pan-y;   /* Ensures smooth touch scroll without refresh */
         }
 
+        body.dark-mode .positive {
+            background-color: rgba(0, 128, 0, 0.3); /* dark green tint */
+            color: #90ee90; /* light green */
+        }
+        
+        body.dark-mode .negative {
+            background-color: rgba(139, 0, 0, 0.3); /* dark red tint */
+            color: #ff7f7f; /* light red */
+        }
+        
+        body.dark-mode .player-name {
+            background-color: rgba(255, 255, 255, 0.1) !important; /* soft background */
+            color: #ffcc00 !important; /* yellow/golden text for visibility */
+        }
+
         @keyframes confetti-fall {
             0% {
                 transform: translateY(-100px) rotate(0deg);
