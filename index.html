@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gochi World</title>
     <style>
-
+            /* Dark mode fix */
+body.dark-mode td.positive {
+  background-color: rgba(0, 255, 0, 0.1); /* light green bg */
+  color: #90ee90; /* light green text */
+}
+body.dark-mode td.negative {
+  background-color: rgba(255, 0, 0, 0.1); /* light red bg */
+  color: #ff7f7f; /* light red text */
+}
         /* Light Mode (default) */
         td.positive input {
           background-color: rgba(0, 128, 0, 0.1); /* light green */
